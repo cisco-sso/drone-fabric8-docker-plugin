@@ -27,6 +27,18 @@ RUN apk add --no-cache curl diffutils
 # Fixing Surefire memory issue - https://issues.apache.org/jira/browse/SUREFIRE-1422
 RUN apk add --no-cache procps
 
+# Adding AWS CLI #1
+RUN apk -v --update add \
+        python \
+        py-pip \
+        groff \
+        less \
+        mailcap \
+        && \
+    pip install --upgrade awscli==1.14.5 s3cmd==2.0.1 python-magic && \
+    apk -v --purge del py-pip && \
+    rm /var/cache/apk/*
+
 # Maven Dockerfile from - https://github.com/carlossg/docker-maven/blob/master/jdk-8/Dockerfile
 ARG MAVEN_VERSION=3.5.4
 ARG USER_HOME_DIR="/root"
